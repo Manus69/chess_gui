@@ -1,0 +1,5 @@
+*.a
+*.o
+.vscode
+_chess
+assets
