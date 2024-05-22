@@ -25,3 +25,13 @@ Position Position_init_default(void)
 {
     return Position_init_from_cstr(Chess_default_pos_cstr(), Move_init_no_move(), castle_info_default(), castle_info_default());
 }
+
+CLR Position_to_move(const Position * position)
+{
+    if (Move_valid(position->last_move))
+    {
+        return piece_clr(Board_at(& position->board, position->last_move.to));
+    }
+
+    return CLR_WHITE;
+}

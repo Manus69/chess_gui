@@ -28,6 +28,11 @@ enum CLR
     CLR_NONE,
 };
 
+static inline CLR_invert(CLR clr)
+{
+    return ! clr;
+}
+
 struct Board
 {
     char squares[CHESS_BOARD_SIZE];
@@ -57,6 +62,7 @@ bool piece_rook(char p);
 bool piece_pawn(char p);
 char piece_value(char p);
 
+bool mask_includes(u64 mask, int idx);
 u64 mask_attack_mask(const Board * board, int idx);
 
 Board Board_init_empty(void);
@@ -80,7 +86,9 @@ bool castle_info_can_castle_long(byte ci);
 Position Position_init(Board board, Move last_move, byte ci_white, byte ci_black);
 Position Position_init_from_cstr(const char * cstr, Move last_move, byte ci_white, byte ci_black);
 Position Position_init_default(void);
+CLR Position_to_move(const Position * position);
 
 PosInfo PosInfo_init(const Position * position);
+bool PosInfo_in_check(const PosInfo * pos_info, CLR clr);
 
 #endif

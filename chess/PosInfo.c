@@ -23,3 +23,8 @@ PosInfo PosInfo_init(const Position * position)
 
     return pos_info;
 }
+
+bool PosInfo_in_check(const PosInfo * pos_info, CLR clr)
+{
+    return mask_includes(pos_info->attack_mask[CLR_invert(clr)], pos_info->king_idx[clr]);
+}
