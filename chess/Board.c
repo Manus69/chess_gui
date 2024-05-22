@@ -47,6 +47,11 @@ void Board_move(Board * board, int from, int to)
     Board_set(board, from, CHESS_PIECE_NONE);
 }
 
+void Board_move_Move(Board * board, Move mv)
+{
+    Board_move(board, mv.from, mv.to);
+}
+
 u64 Board_hash(const Board * board)
 {
     return hash_djb(board->squares, CHESS_BOARD_SIZE);
