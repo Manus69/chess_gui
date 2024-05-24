@@ -62,13 +62,6 @@ int Gui_stop(Gui * gui)
     return OK;
 }
 
-int Gui_reset(Gui * gui)
-{
-    Layout_deselect(& gui->layout);
-    
-    return OK;
-}
-
 Texture2D Gui_texture(const Gui * gui)
 {
     return gui->tx.texture;
@@ -81,7 +74,6 @@ int Gui_data_size(const Gui * gui)
 
 int Gui_Board_set_cstr(Gui * gui, const char * cstr)
 {
-    Gui_reset(gui);
     GuiBoard_place_from_cstr(& gui->layout.board, cstr);
 
     return OK;

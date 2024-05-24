@@ -34,7 +34,6 @@ static Move _drop_piece(Gui * gui)
     to = Layout_square_hovered(& gui->layout, gui->input.mouse);
     from = gui->layout.selection.idx;
 
-    // if (to == NO_IDX) _deselect(gui);
     _deselect(gui);
 
     return Move_init(from, to);
