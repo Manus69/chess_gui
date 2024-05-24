@@ -33,9 +33,7 @@ void dbg_Board(const Board * board)
 
 void dbg_BrdInfo(const BrdInfo * pi)
 {
-    dbg_mask(pi->attack_mask[CLR_WHITE]);
-    nl_;
-    dbg_mask(pi->attack_mask[CLR_BALCK]);
+    (void) pi;
 }
 
 

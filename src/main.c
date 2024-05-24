@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include "raylib.h"
 
+//remove attack mask computations from brdinfo ?
+
 int main(void)
 {
     Gui *   gui;
@@ -22,13 +24,7 @@ int main(void)
         mv = Gui_handle_input(gui);
         Gui_draw(gui);
 
-        //
-        if (Move_valid(mv))
-        {
-            printf("%d %d\n", mv.to, mv.from);
-            Chess_dbg(chess);
-        }
-        //
+        if (Chess_try_move(chess, mv)) Gui_Board_set_cstr(gui, Chess_get_board_cstr(chess));
     }
     
     Chess_del(chess);

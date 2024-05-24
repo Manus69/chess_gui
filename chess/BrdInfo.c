@@ -19,19 +19,19 @@ BrdInfo BrdInfo_init(const Board * board)
 
         u64_set_bit(& info.square_mask[clr], k);
 
-        mask = mask_attack_mask(board, k);
-        info.attack_mask[clr] |= mask;
+        // mask = mask_attack_mask(board, k);
+        // info.attack_mask[clr] |= mask;
     }
 
     return info;
 }
 
-bool BrdInfo_square_attacked_by(const BrdInfo * pos_info, int idx, CLR clr)
-{
-    return mask_includes(pos_info->attack_mask[clr], idx);
-}
+// bool BrdInfo_square_attacked_by(const BrdInfo * pos_info, int idx, CLR clr)
+// {
+//     return mask_includes(pos_info->attack_mask[clr], idx);
+// }
 
-bool BrdInfo_in_check(const BrdInfo * pos_info, CLR clr)
-{
-    return PosInfo_square_attacked_by(pos_info, pos_info->king_idx[CLR_invert(clr)], clr);
-}
+// bool BrdInfo_in_check(const BrdInfo * pos_info, CLR clr)
+// {
+//     return PosInfo_square_attacked_by(pos_info, pos_info->king_idx[CLR_invert(clr)], clr);
+// }

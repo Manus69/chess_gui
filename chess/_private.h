@@ -51,7 +51,7 @@ struct Position
 struct BrdInfo
 {
     u64     square_mask[CLR_NONE];
-    u64     attack_mask[CLR_NONE];
+    // u64     attack_mask[CLR_NONE];
     char    king_idx[CLR_NONE];
     char    material[CLR_NONE];
 };
@@ -84,6 +84,7 @@ bool piece_rook_clr(char p, CLR clr);
 bool piece_pawn_clr(char p, CLR clr);
 char piece_value(char p);
 
+//mask
 bool mask_includes(u64 mask, int idx);
 u64 mask_attack_mask(const Board * board, int idx);
 u64 mask_attack_pawn_up(int row, int col);
@@ -94,6 +95,10 @@ u64 mask_attack_bishop(const Board * board, int row, int col);
 u64 mask_attack_rook(const Board * board, int row, int col);
 u64 mask_attack_queen(const Board * board, int row, int col);
 
+u64 mask_move_mask_info(const Position * pos, int idx, const BrdInfo * info);
+u64 mask_move_mask(const Position * pos, int idx);
+
+//board
 Board Board_init_empty(void);
 Board Board_init_cstr(const char * cstr);
 Board Board_init_copy(const Board * board);
@@ -125,15 +130,17 @@ void castle_info_move_rookh(byte * ci);
 bool castle_info_can_castle_short(byte ci);
 bool castle_info_can_castle_long(byte ci);
 
+//pos
 Position Position_init(Board board, Move last_move, byte ci_white, byte ci_black);
 Position Position_init_from_cstr(const char * cstr, Move last_move, byte ci_white, byte ci_black);
 Position Position_init_default(void);
 CLR Position_to_move(const Position * position);
 char * Position_Board_cstr(const Position * position);
+void Position_apply_move(Position * pos, Move mv);
 
 BrdInfo BrdInfo_init(const Board * board);
-bool BrdInfo_square_attacked_by(const BrdInfo * pos_info, int idx, CLR clr);
-bool BrdInfo_in_check(const BrdInfo * pos_info, CLR clr);
+// bool BrdInfo_square_attacked_by(const BrdInfo * pos_info, int idx, CLR clr);
+// bool BrdInfo_in_check(const BrdInfo * pos_info, CLR clr);
 
 //dbg
 void dbg_mask(u64 mask);
