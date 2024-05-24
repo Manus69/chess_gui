@@ -74,7 +74,7 @@ int Gui_data_size(const Gui * gui)
 
 int Gui_Board_set_cstr(Gui * gui, const char * cstr)
 {
-    Board_place_from_cstr(& gui->layout.board, cstr);
+    GuiBoard_place_from_cstr(& gui->layout.board, cstr);
 
     return OK;
 }

@@ -22,7 +22,7 @@ static void _board(Layout * layout)
     offset = min / 10;
     size = min - 2 * offset;
     
-    layout->board = Board_init(offset, offset, size);
+    layout->board = GuiBoard_init(offset, offset, size);
 }
 
 Layout Layout_default(int ww, int wh)

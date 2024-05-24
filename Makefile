@@ -19,7 +19,7 @@ $(obj_dir)%.o : $(src_dir)%.c
 	$(cc) $(flags) -c $^ -o $@
 
 $(target) : $(obj)
-	$(cc) $(flags) $(obj) $(lib) $(chess_lib) -o $@ -lraylib -lm
+	$(cc) $(flags) $(obj) $(chess_lib) $(lib) -o $@ -lraylib -lm
 
 all: make -C $(chess_dir)
 all: dbg

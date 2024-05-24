@@ -16,7 +16,7 @@ void _draw_board(const Gui * gui)
     
     for (int k = 0; k < GUI_BOARD_SIZE; k ++)
     {
-        _draw_obj(Board_get(& gui->layout.board, k), gui);
+        _draw_obj(GuiBoard_get(& gui->layout.board, k), gui);
     }
 }
 

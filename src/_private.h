@@ -16,7 +16,7 @@
 typedef struct TxLayout     TxLayout;
 typedef struct Tx           Tx;
 typedef struct Obj          Obj;
-typedef struct Board        Board;
+typedef struct GuiBoard        GuiBoard;
 typedef struct Selection    Selection;
 typedef struct Layout       Layout;
 typedef struct Input        Input;
@@ -58,7 +58,7 @@ struct Obj
     Rectangle   rect;
 };
 
-struct Board
+struct GuiBoard
 {
     GUI_TYPE    type;
     Rectangle   rect;
@@ -75,7 +75,7 @@ struct Selection
 struct Layout
 {
     Rectangle   window;
-    Board       board;
+    GuiBoard    board;
     Selection   selection;
 };
 
@@ -116,13 +116,13 @@ void Obj_center(Obj * obj, Vector2 xy);
 
 TxLayout    TxLayout_default(void);
 
-Board   Board_init(float x, float y, float size);
-Obj     Board_as_Obj(Board board);
-Obj * Board_get(const Board * board, int idx);
-void Board_place(Board * board, int idx, Obj obj);
-void Board_place_piece(Board * board, int idx, GUI_TYPE type);
-void Board_place_from_cstr(Board * board, const char * cstr);
-float Board_square_size(const Board * board);
+GuiBoard   GuiBoard_init(float x, float y, float size);
+Obj     GuiBoard_as_Obj(GuiBoard board);
+Obj * GuiBoard_get(const GuiBoard * board, int idx);
+void GuiBoard_place(GuiBoard * board, int idx, Obj obj);
+void GuiBoard_place_piece(GuiBoard * board, int idx, GUI_TYPE type);
+void GuiBoard_place_from_cstr(GuiBoard * board, const char * cstr);
+float GuiBoard_square_size(const GuiBoard * board);
 
 Layout Layout_default(int ww, int wh);
 bool Layout_Board_hovered(const Layout * layout, Vector2 xy);

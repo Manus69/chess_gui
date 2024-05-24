@@ -11,8 +11,8 @@ int Layout_square_hovered(const Layout * layout, Vector2 xy)
 
     if (Layout_Board_hovered(layout, xy))
     {
-        row = (xy.y - layout->board.rect.y) / Board_square_size(& layout->board);
-        col = (xy.x - layout->board.rect.x) / Board_square_size(& layout->board);
+        row = (xy.y - layout->board.rect.y) / GuiBoard_square_size(& layout->board);
+        col = (xy.x - layout->board.rect.x) / GuiBoard_square_size(& layout->board);
 
         return _row_col_idx(row, col);
     }
@@ -33,7 +33,7 @@ void Layout_select(Layout * layout, Obj * obj)
 
 void Layout_select_square(Layout * layout, int idx)
 {
-    Layout_select(layout, Board_get(& layout->board, idx));
+    Layout_select(layout, GuiBoard_get(& layout->board, idx));
     layout->selection.idx = idx;
 }
 

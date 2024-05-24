@@ -9,11 +9,13 @@
 int main(void)
 {
     Gui *   gui;
+    Chess * chess;
     Move    mv;
 
     if (! (gui = Gui_start())) return 0;
-    
-    Gui_Board_set_cstr(gui, Chess_default_pos_cstr());
+    if (! (chess = Chess_new_game())) return 0;
+
+    Gui_Board_set_cstr(gui, Chess_get_board_cstr(chess));
 
     while (! WindowShouldClose())
     {
@@ -21,9 +23,14 @@ int main(void)
         Gui_draw(gui);
 
         //
-        if (Move_valid(mv)) printf("%d %d\n", mv.to, mv.from);
+        if (Move_valid(mv))
+        {
+            printf("%d %d\n", mv.to, mv.from);
+            Chess_dbg(chess);
+        }
         //
     }
     
+    Chess_del(chess);
     Gui_stop(gui);
 }

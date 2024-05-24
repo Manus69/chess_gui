@@ -22,6 +22,12 @@ enum CHESS_PIECE
     CHESS_PIECE_BP = 'p',
 };
 
-char *  Chess_default_pos_cstr(void);
+typedef struct Chess Chess;
+
+Chess * Chess_new_game(void);
+void Chess_del(Chess * chess);
+char * Chess_get_board_cstr(const Chess * chess);
+bool Chess_try_move(Chess * chess, Move mv);
+void Chess_dbg(const Chess * chess);
 
 #endif

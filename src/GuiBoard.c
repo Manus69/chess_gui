@@ -1,6 +1,6 @@
 #include "_private.h"
 
-static void _init_squares(Board * board)
+static void _init_squares(GuiBoard * board)
 {
     float   square_size;
     int     idx;
@@ -26,9 +26,9 @@ static void _init_squares(Board * board)
     }
 }
 
-Board Board_init(float x, float y, float size)
+GuiBoard GuiBoard_init(float x, float y, float size)
 {
-    Board board;
+    GuiBoard board;
 
     board.type = GUI_BOARD;
     board.rect = (Rectangle)
@@ -44,7 +44,7 @@ Board Board_init(float x, float y, float size)
     return board;
 }
 
-Obj Board_as_Obj(Board board)
+Obj GuiBoard_as_Obj(GuiBoard board)
 {
     return (Obj)
     {
@@ -53,30 +53,30 @@ Obj Board_as_Obj(Board board)
     };
 }
 
-float Board_square_size(const Board * board)
+float GuiBoard_square_size(const GuiBoard * board)
 {
     return board->squares->rect.width;
 }
 
-Obj * Board_get(const Board * board, int idx)
+Obj * GuiBoard_get(const GuiBoard * board, int idx)
 {
     return (Obj *) board->squares + idx;
 }
 
-void Board_place(Board * board, int idx, Obj obj)
+void GuiBoard_place(GuiBoard * board, int idx, Obj obj)
 {
-    * Board_get(board, idx) = obj;
+    * GuiBoard_get(board, idx) = obj;
 }
 
-void Board_place_piece(Board * board, int idx, GUI_TYPE type)
+void GuiBoard_place_piece(GuiBoard * board, int idx, GUI_TYPE type)
 {
-    Board_get(board, idx)->type = type;
+    GuiBoard_get(board, idx)->type = type;
 }
 
-void Board_place_from_cstr(Board * board, const char * cstr)
+void GuiBoard_place_from_cstr(GuiBoard * board, const char * cstr)
 {
     for (int k = 0; k < GUI_BOARD_SIZE; k ++)
     {
-        Board_place_piece(board, k, _chess_piece_to_gui_type(cstr[k]));
+        GuiBoard_place_piece(board, k, _chess_piece_to_gui_type(cstr[k]));
     }
 }

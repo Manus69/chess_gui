@@ -15,6 +15,8 @@ $(obj_dir)%.o : %.c
 $(target) : $(objs)
 	ar -rcsv $(target) $(objs)
 
+.PHONY: dbg
+
 all: dbg
 
 dir:

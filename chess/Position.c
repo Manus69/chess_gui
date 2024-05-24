@@ -23,7 +23,7 @@ Position Position_init_from_cstr(const char * cstr, Move last_move, byte ci_whit
 
 Position Position_init_default(void)
 {
-    return Position_init_from_cstr(Chess_default_pos_cstr(), Move_init_no_move(), castle_info_default(), castle_info_default());
+    return Position_init_from_cstr(CHESS_POS_DFLT, Move_init_no_move(), castle_info_default(), castle_info_default());
 }
 
 CLR Position_to_move(const Position * position)
@@ -34,4 +34,9 @@ CLR Position_to_move(const Position * position)
     }
 
     return CLR_WHITE;
+}
+
+char * Position_Board_cstr(const Position * position)
+{
+    return Board_get(& position->board, 0);
 }
