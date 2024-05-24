@@ -6,7 +6,7 @@ static bool _check_after_move(const Position * pos, int from, int to, const BrdI
     CLR     clr;
     int     king_idx;
 
-    next = Board_move_copy(& pos, from, to);
+    next = Board_move_copy(& pos->board, from, to);
     clr = Board_square_piece_clr(& next, to);
     king_idx = piece_king(Board_at(& next, to)) ? to : info->king_idx[clr];
 
@@ -22,11 +22,9 @@ static void _mask_if_legal(u64 * mask, const Position * pos, int from, int to_ro
 
 static void _mask_dir(u64 * mask, const Position * pos, int row, int col, int drow, int dcol, const BrdInfo * info)
 {
-    int     from, to;
-    CLR     clr;
+    int from, to;
 
     from = _row_col_idx(row, col);
-    clr = Board_square_piece_clr(& pos->board, from);
 
     row += drow;
     col += dcol;
@@ -96,6 +94,7 @@ static void _mask_castle(u64 * mask, const Position * pos, int row, int col, con
 {
     CLR clr;
 
+    (void) info;
     clr = Board_square_piece_clr(& pos->board, _row_col_idx(row, col));
 
     if (castle_info_can_castle_short(pos->castle_info[clr]))
@@ -135,7 +134,7 @@ static u64 _mask_move_king(const Position * pos, int row, int col, const BrdInfo
     _mask_if_legal(& mask, pos, from, row + 1, col, info);
     _mask_if_legal(& mask, pos, from, row + 1, col + 1, info);
 
-    _mask_castle(mask, pos, row, col, info);
+    _mask_castle(& mask, pos, row, col, info);
 
     return mask;
 }
@@ -193,19 +192,19 @@ static u64 _mask_move_pawn(const Position * pos, int row, int col, const BrdInfo
 
     if (clr == CLR_WHITE)
     {
-        if (row == CHESS_BOARD_SIDE - 2)    _mask_pawn_initial(mask, pos, row, col, -1, info);
-        else                                _mask_pawn_dir(mask, pos, row, col, -1, info);
+        if (row == CHESS_BOARD_SIDE - 2)    _mask_pawn_initial(& mask, pos, row, col, -1, info);
+        else                                _mask_pawn_dir(& mask, pos, row, col, -1, info);
 
-        _mask_pawn_capture_dir(mask, pos, row, col, -1, -1, info);
-        _mask_pawn_capture_dir(mask, pos, row, col, -1, 1, info);
+        _mask_pawn_capture_dir(& mask, pos, row, col, -1, -1, info);
+        _mask_pawn_capture_dir(& mask, pos, row, col, -1, 1, info);
     }
     else
     {
-        if (row == 1)                       _mask_pawn_initial(mask, pos, row, col, 1, info);
-        else                                _mask_pawn_dir(mask, pos, row, col, 1, info);
+        if (row == 1)                       _mask_pawn_initial(& mask, pos, row, col, 1, info);
+        else                                _mask_pawn_dir(& mask, pos, row, col, 1, info);
 
-        _mask_pawn_capture_dir(mask, pos, row, col, 1, -1, info);
-        _mask_pawn_capture_dir(mask, pos, row, col, 1, 1, info);
+        _mask_pawn_capture_dir(& mask, pos, row, col, 1, -1, info);
+        _mask_pawn_capture_dir(& mask, pos, row, col, 1, 1, info);
     }
 
     return mask;

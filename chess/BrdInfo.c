@@ -5,7 +5,7 @@ BrdInfo BrdInfo_init(const Board * board)
     BrdInfo info = {};
     CLR     clr;
     char    piece;
-    u64     mask;
+    // u64     mask;
     
     for (int k = 0; k < CHESS_BOARD_SIZE; k ++)
     {

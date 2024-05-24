@@ -8,6 +8,7 @@ Chess * Chess_new_game(void)
 
     chess->position = Position_init_default();
     chess->move_number = 0;
+    chess->to_move = CLR_WHITE;
 
     return chess;
 }
@@ -24,8 +25,5 @@ char * Chess_get_board_cstr(const Chess * chess)
 
 void Chess_dbg(const Chess * chess)
 {
-    BrdInfo info;
-
-    info = BrdInfo_init(& chess->position);
-    dbg_BrdInfo(& info);
+    (void) chess;
 }

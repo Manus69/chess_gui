@@ -30,7 +30,7 @@ CLR Position_to_move(const Position * position)
 {
     if (Move_valid(position->last_move))
     {
-        return piece_clr(Board_at(& position->board, position->last_move.to));
+        return CLR_invert(piece_clr(Board_at(& position->board, position->last_move.to)));
     }
 
     return CLR_WHITE;

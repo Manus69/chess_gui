@@ -21,17 +21,17 @@ byte castle_info_default(void)
 
 bool castle_info_king_moved(byte ci)
 {
-    return ci & _mask(CI_BIT_KING);
+    return ! (ci & _mask(CI_BIT_KING));
 }
 
 bool castle_info_rooka_moved(byte ci)
 {
-    return ci & _mask(CI_BIT_RA);
+    return ! (ci & _mask(CI_BIT_RA));
 }
 
 bool castle_info_rookh_moved(byte ci)
 {
-    return ci & _mask(CI_BIT_RH);
+    return ! (ci & _mask(CI_BIT_RH));
 }
 
 void castle_info_move_king(byte * ci)

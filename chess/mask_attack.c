@@ -87,7 +87,7 @@ u64 mask_attack_rook(const Board * board, int row, int col)
 
 u64 mask_attack_queen(const Board * board, int row, int col)
 {
-    return _mask_attack_bishop(board, row, col) | _mask_attack_rook(board, row, col);
+    return mask_attack_bishop(board, row, col) | mask_attack_rook(board, row, col);
 }
 
 u64 mask_attack_mask(const Board * board, int idx)
@@ -100,13 +100,13 @@ u64 mask_attack_mask(const Board * board, int idx)
     col = _idx_col(idx);
     piece = Board_at(board, idx);
 
-    if (piece_pawn_white(piece))    return _mask_attack_pawn_up(row, col);
-    if (piece_pawn_black(piece))    return _mask_attack_pawn_down(row, col);
-    if (piece_king(piece))          return _mask_attack_king(row, col);
-    if (piece_knight(piece))        return _mask_attack_knight(row, col);
-    if (piece_bishop(piece))        return _mask_attack_bishop(board, row, col);
-    if (piece_rook(piece))          return _mask_attack_rook(board, row, col);
-    if (piece_queen(piece))         return _mask_attack_queen(board, row, col);
+    if (piece_pawn_white(piece))    return mask_attack_pawn_up(row, col);
+    if (piece_pawn_black(piece))    return mask_attack_pawn_down(row, col);
+    if (piece_king(piece))          return mask_attack_king(row, col);
+    if (piece_knight(piece))        return mask_attack_knight(row, col);
+    if (piece_bishop(piece))        return mask_attack_bishop(board, row, col);
+    if (piece_rook(piece))          return mask_attack_rook(board, row, col);
+    if (piece_queen(piece))         return mask_attack_queen(board, row, col);
 
     return 0;
 }

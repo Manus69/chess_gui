@@ -59,6 +59,7 @@ struct BrdInfo
 struct Chess
 {
     Position    position;
+    CLR         to_move;
     int         move_number;
 };
 

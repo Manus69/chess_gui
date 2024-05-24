@@ -51,7 +51,7 @@ static void _apply_short_castle(Position * pos, Move mv)
     clr = Board_square_piece_clr(& pos->board, mv.from);
     row = _idx_row(mv.from);
     rook_from = _row_col_idx(row, CHESS_BOARD_SIDE - 1);
-    rook_to = _row_col_idx(row, _idx_col(mv.from) - 1);
+    rook_to = _row_col_idx(row, _idx_col(mv.from) + 1);
 
     Board_move_Move(& pos->board, mv);
     Board_move(& pos->board, rook_from, rook_to);
@@ -70,7 +70,7 @@ static void _apply_long_castle(Position * pos, Move mv)
     clr = Board_square_piece_clr(& pos->board, mv.from);
     row = _idx_row(mv.from);
     rook_from = _row_col_idx(row, 0);
-    rook_to = _row_col_idx(row, _idx_col(mv.from) + 1);
+    rook_to = _row_col_idx(row, _idx_col(mv.from) - 1);
 
     Board_move_Move(& pos->board, mv);
     Board_move(& pos->board, rook_from, rook_to);
