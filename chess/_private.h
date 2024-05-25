@@ -133,11 +133,13 @@ bool castle_info_can_castle_long(byte ci);
 
 //pos
 Position Position_init(Board board, Move last_move, byte ci_white, byte ci_black);
-Position Position_init_from_cstr(const char * cstr, Move last_move, byte ci_white, byte ci_black);
+Position Position_init_from_cstr_arg(const char * cstr, Move last_move, byte ci_white, byte ci_black);
 Position Position_init_default(void);
 CLR Position_to_move(const Position * position);
 char * Position_Board_cstr(const Position * position);
 void Position_apply_move(Position * pos, Move mv);
+Str Position_to_Str(const Position * position);
+Position Position_init_Str(const Str * str);
 
 BrdInfo BrdInfo_init(const Board * board);
 // bool BrdInfo_square_attacked_by(const BrdInfo * pos_info, int idx, CLR clr);

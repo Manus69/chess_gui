@@ -60,5 +60,5 @@ GuiMove Gui_handle_input(Gui * gui)
         return _drop_piece(gui);
     }
 
-    return (GuiMove) {};
+    return (GuiMove) {Move_init_no_move()};
 }
