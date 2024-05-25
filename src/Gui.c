@@ -8,6 +8,7 @@
 static int _init(Gui * gui)
 {
     InitWindow(gui->layout.window.width, gui->layout.window.height, "");
+    SetWindowMonitor(0);
     SetTargetFPS(FPS);
 
     return OK;
@@ -60,6 +61,16 @@ int Gui_stop(Gui * gui)
     CloseWindow();
 
     return OK;
+}
+
+void Gui_reset(Gui * gui)
+{
+    Layout_deselect(& gui->layout);
+}
+
+void Gui_restore(Gui * gui)
+{
+    if (Layout_has_selection(& gui->layout)) Layout_restore_selection(& gui->layout);
 }
 
 Texture2D Gui_texture(const Gui * gui)

@@ -1,7 +1,5 @@
 #include "Gui.h"
-//
 #include "../chess/Chess.h"
-//
 
 #include <stdio.h>
 #include "raylib.h"
@@ -10,21 +8,32 @@
 
 int main(void)
 {
-    Gui *   gui;
-    Chess * chess;
-    Move    mv;
+    Gui *       gui;
+    Chess *     chess;
+    GuiMove     mv;
 
-    if (! (gui = Gui_start())) return 0;
-    if (! (chess = Chess_new_game())) return 0;
+    if (! (gui = Gui_start()))          return 0;
+    if (! (chess = Chess_new_game()))   return 0;
 
     Gui_Board_set_cstr(gui, Chess_get_board_cstr(chess));
 
     while (! WindowShouldClose())
     {
-        mv = Gui_handle_input(gui);
         Gui_draw(gui);
+        mv = Gui_handle_input(gui);
 
-        if (Chess_try_move(chess, mv)) Gui_Board_set_cstr(gui, Chess_get_board_cstr(chess));
+        if (mv.attempted)
+        {
+            if (Chess_try_move(chess, mv.mv))
+            {
+                Gui_reset(gui);
+                Gui_Board_set_cstr(gui, Chess_get_board_cstr(chess));
+            }
+            else
+            {
+                Gui_restore(gui);
+            }
+        }
     }
     
     Chess_del(chess);
