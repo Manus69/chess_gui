@@ -24,10 +24,11 @@ enum CHESS_PIECE
 
 typedef struct Chess Chess;
 
+void    Chess_init_from_Pos_cstr(Chess * chess, const char * cstr);
 Chess * Chess_new_game(void);
-void Chess_del(Chess * chess);
-char * Chess_get_board_cstr(const Chess * chess);
-bool Chess_try_move(Chess * chess, Move mv);
-void Chess_dbg(const Chess * chess);
+void    Chess_del(Chess * chess);
+char *  Chess_get_board_cstr(const Chess * chess);
+bool    Chess_try_move(Chess * chess, Move mv);
+void    Chess_dbg(const Chess * chess);
 
 #endif

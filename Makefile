@@ -15,13 +15,6 @@ src_nd = $(notdir $(src))
 obj = $(addprefix $(obj_dir),$(src_nd:.c=.o))
 chess_lib = $(chess_dir)libChess.a
 
-$(obj_dir)%.o : $(src_dir)%.c
-	$(cc) $(flags) -c $^ -o $@
-
-$(target) : $(obj)
-	$(cc) $(flags) $(obj) $(chess_lib) $(lib) -o $@ -lraylib -lm
-
-all: make -C $(chess_dir)
 all: dbg
 
 rm_obj:
@@ -46,3 +39,12 @@ re_dbg: rm_obj rm_target dbg
 
 chess_dbg:
 	make dbg -C $(chess_dir)
+
+$(obj_dir)%.o : $(src_dir)%.c
+	$(cc) $(flags) -c $^ -o $@
+
+$(target) : $(obj) $(chess_lib)
+	$(cc) $(flags) $(obj) $(chess_lib) $(lib) -o $@ -lraylib -lm
+
+$(chess_lib) : 
+	make -C $(chess_dir)

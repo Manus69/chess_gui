@@ -9,12 +9,6 @@ obj_dir = ./obj/
 src = $(wildcard *.c)
 objs = $(addprefix $(obj_dir),$(src:.c=.o))
 
-$(obj_dir)%.o : %.c
-	$(cc) $(flags) $^ -c -o $@
-
-$(target) : $(objs)
-	ar -rcsv $(target) $(objs)
-
 .PHONY: dbg
 
 all: dbg
@@ -30,3 +24,9 @@ rm:
 	rm -f $(objs) $(taget)
 
 re_dbg: rm dbg
+
+$(obj_dir)%.o : %.c
+	$(cc) $(flags) $^ -c -o $@
+
+$(target) : $(objs)
+	ar -rcsv $(target) $(objs)

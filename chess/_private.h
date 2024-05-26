@@ -140,10 +140,13 @@ char * Position_Board_cstr(const Position * position);
 void Position_apply_move(Position * pos, Move mv);
 Str Position_to_Str(const Position * position);
 Position Position_init_Str(const Str * str);
+Position Position_init_cstr(const char * cstr);
 
 BrdInfo BrdInfo_init(const Board * board);
 // bool BrdInfo_square_attacked_by(const BrdInfo * pos_info, int idx, CLR clr);
 // bool BrdInfo_in_check(const BrdInfo * pos_info, CLR clr);
+
+void    Chess_init_from_Position(Chess * chess, Position pos, CLR to_move);
 
 //dbg
 void dbg_mask(u64 mask);

@@ -36,6 +36,7 @@ Position Position_init_Str(const Str * str)
     Position    pos;
     Slc         slc;
     Slc         current;
+    u64         ci;
 
     slc = Str_as_Slc(str);
 
@@ -49,10 +50,30 @@ Position Position_init_Str(const Str * str)
     i32_parse_Slc((i32 *) & pos.last_move.to, current);
 
     current = Slc_split_next(& slc, SEP);
-    u64_parse_bin_cstr_len((u64 *) & pos.castle_info[CLR_WHITE], Slc_start(current), Slc_size(current));
+    u64_parse_bin_cstr_len(& ci, Slc_start(current), Slc_size(current));
+    pos.castle_info[CLR_WHITE] = ci;
 
     current = Slc_split_next(& slc, SEP);
-    u64_parse_bin_cstr_len((u64 *) & pos.castle_info[CLR_BALCK], Slc_start(current), Slc_size(current));
+    u64_parse_bin_cstr_len(& ci, Slc_start(current), Slc_size(current));
+    pos.castle_info[CLR_BALCK] = ci;
+
+    return pos;
+}
+
+#include <stdio.h>
+Position Position_init_cstr(const char * cstr)
+{
+    Str         str;
+    Position    pos;
+
+    str = Str_ctor_cstr(cstr);
+    //
+    Str_dbg(& str);
+    nl_;
+    //
+    pos = Position_init_Str(& str);
+
+    Str_del(& str);
 
     return pos;
 }
