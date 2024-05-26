@@ -147,10 +147,29 @@ static void _mask_pawn_dir(u64 * mask, const Position * pos, int row, int col, i
     u64_set_bit(mask, _row_col_idx(row + drow, col));
 }
 
-static void _mask_pawn_initial(u64 * mask, const Position * pos, int row, int col, int drow, const BrdInfo * info)
+static const int _PAWN_ROW[] = {6, 1};
+static const int _PAWN_DROW[] = {-1, 1};
+
+static void _mask_move_pawn_reg_initial(u64 * mask, const Position * pos, int row, int col, const BrdInfo * info, CLR clr)
 {
+    int drow;
+
+    drow = _PAWN_DROW[clr];
+
+    if (row != _PAWN_ROW[clr])                                              return ;
+    if (! Board_square_empty(& pos->board, _row_col_idx(row + drow, col)))  return ;
+
+    _mask_pawn_dir(mask, pos, row, col, 2 * drow, info);
+}
+
+static void _mask_move_pawn_reg(u64 * mask, const Position * pos, int row, int col, const BrdInfo * info, CLR clr)
+{
+    int drow;
+
+    drow = _PAWN_DROW[clr];
+
     _mask_pawn_dir(mask, pos, row, col, drow, info);
-    if (* mask) _mask_pawn_dir(mask, pos, row + drow, col, drow, info);
+    _mask_move_pawn_reg_initial(mask, pos, row, col, info, clr);
 }
 
 static bool _last_move_pawn_initial(const Position * pos, int row, int col, int drow, int dcol)
@@ -183,6 +202,16 @@ static void _mask_pawn_capture_dir(u64 * mask, const Position * pos, int row, in
     if (! Board_square_piece_same_clr(& pos->board, from, to))  u64_set_bit(mask, _row_col_idx(row + drow, col + dcol));
 }
 
+static void _mask_move_pawn_capture(u64 * mask, const Position * pos, int row, int col, const BrdInfo * info, CLR clr)
+{
+    int drow;
+
+    drow = _PAWN_DROW[clr];
+
+    _mask_pawn_capture_dir(mask, pos, row, col, drow, -1, info);
+    _mask_pawn_capture_dir(mask, pos, row, col, drow, 1, info);
+}
+
 static u64 _mask_move_pawn(const Position * pos, int row, int col, const BrdInfo * info)
 {
     u64 mask = 0;
@@ -190,22 +219,8 @@ static u64 _mask_move_pawn(const Position * pos, int row, int col, const BrdInfo
 
     clr = Board_square_piece_clr(& pos->board, _row_col_idx(row, col));
 
-    if (clr == CLR_WHITE)
-    {
-        if (row == CHESS_BOARD_SIDE - 2)    _mask_pawn_initial(& mask, pos, row, col, -1, info);
-        else                                _mask_pawn_dir(& mask, pos, row, col, -1, info);
-
-        _mask_pawn_capture_dir(& mask, pos, row, col, -1, -1, info);
-        _mask_pawn_capture_dir(& mask, pos, row, col, -1, 1, info);
-    }
-    else
-    {
-        if (row == 1)                       _mask_pawn_initial(& mask, pos, row, col, 1, info);
-        else                                _mask_pawn_dir(& mask, pos, row, col, 1, info);
-
-        _mask_pawn_capture_dir(& mask, pos, row, col, 1, -1, info);
-        _mask_pawn_capture_dir(& mask, pos, row, col, 1, 1, info);
-    }
+    _mask_move_pawn_reg(& mask, pos, row, col, info, clr);
+    _mask_move_pawn_capture(& mask, pos, row, col, info, clr);
 
     return mask;
 }

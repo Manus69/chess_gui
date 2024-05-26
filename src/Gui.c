@@ -1,6 +1,7 @@
 #include "_private.h"
 
-#define TX_PATH "./assets/texture.png"
+// #define TX_PATH "./assets/texture.png"
+#define TX_PATH "/home/manus/Documents/projects/Chess/assets/texture.png"
 #define FPS     (30)
 #define WW_DFLT (1000)
 #define WH_DFLT (1000)

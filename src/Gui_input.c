@@ -7,11 +7,6 @@ void Gui_process_input(Gui * gui)
     gui->input.mose_down = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
 }
 
-// static void _deselect(Gui * gui)
-// {
-//     Layout_restore_selection(& gui->layout);
-// }
-
 static void _move_piece(Gui * gui)
 {
     Obj_center(Layout_get_selection_obj(& gui->layout), gui->input.mouse);
@@ -33,8 +28,6 @@ static GuiMove _drop_piece(Gui * gui)
 
     to = Layout_square_hovered(& gui->layout, gui->input.mouse);
     from = gui->layout.selection.idx;
-
-    // _deselect(gui);
 
     return (GuiMove)
     {
@@ -60,5 +53,8 @@ GuiMove Gui_handle_input(Gui * gui)
         return _drop_piece(gui);
     }
 
-    return (GuiMove) {Move_init_no_move()};
+    return (GuiMove)
+    {
+        .attempted = false,
+    };
 }

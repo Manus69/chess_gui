@@ -1,5 +1,7 @@
 #include "_private.h"
 
+#include <stdio.h>
+
 Chess * Chess_new_game(void)
 {
     Chess * chess;
@@ -25,5 +27,11 @@ char * Chess_get_board_cstr(const Chess * chess)
 
 void Chess_dbg(const Chess * chess)
 {
-    (void) chess;
+    Str str;
+
+    str = Position_to_Str(& chess->position);
+    Str_dbg(& str);
+    nl_;
+
+    Str_del(& str);
 }
