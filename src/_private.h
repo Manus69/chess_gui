@@ -39,6 +39,7 @@ enum GUI_TYPE
     GUI_BR,
     GUI_WP,
     GUI_BP,
+    GUI_BUTTON,
     GUI_ELEM_MAX,
 };
 

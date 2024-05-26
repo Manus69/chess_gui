@@ -4,6 +4,7 @@
 #include "Chess.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define CHESS_BOARD_SIDE COMMON_BOARD_SIDE
 #define CHESS_BOARD_SIZE COMMON_BOARD_SIZE

@@ -90,13 +90,8 @@ static u64 _mask_move_knight(const Position * pos, int row, int col, const BrdIn
     return mask;
 }
 
-static void _mask_castle(u64 * mask, const Position * pos, int row, int col, const BrdInfo * info)
+static void _mask_castle_short(u64 * mask, const Position * pos, int row, int col, CLR clr)
 {
-    CLR clr;
-
-    (void) info;
-    clr = Board_square_piece_clr(& pos->board, _row_col_idx(row, col));
-
     if (castle_info_can_castle_short(pos->castle_info[clr]))
     {
         if (! Board_square_empty(& pos->board, _row_col_idx(row, col + 1)))                         return ;
@@ -106,7 +101,10 @@ static void _mask_castle(u64 * mask, const Position * pos, int row, int col, con
 
         u64_set_bit(mask, _row_col_idx(row, col + 2));
     }
+}
 
+static void _mask_castle_long(u64 * mask, const Position * pos, int row, int col, CLR clr)
+{
     if (castle_info_can_castle_long(pos->castle_info[clr]))
     {
         if (! Board_square_empty(& pos->board, _row_col_idx(row, col - 1)))                         return ;
@@ -116,6 +114,17 @@ static void _mask_castle(u64 * mask, const Position * pos, int row, int col, con
 
         u64_set_bit(mask, _row_col_idx(row, col - 2));
     }
+}
+
+static void _mask_castle(u64 * mask, const Position * pos, int row, int col, const BrdInfo * info)
+{
+    CLR clr;
+
+    (void) info;
+    clr = Board_square_piece_clr(& pos->board, _row_col_idx(row, col));
+
+    _mask_castle_short(mask, pos, row, col, clr);
+    _mask_castle_long(mask, pos, row, col, clr);
 }
 
 static u64 _mask_move_king(const Position * pos, int row, int col, const BrdInfo * info)
