@@ -71,7 +71,8 @@ void Gui_reset(Gui * gui)
 
 void Gui_restore(Gui * gui)
 {
-    if (Layout_has_selection(& gui->layout)) Layout_restore_selection(& gui->layout);
+    Layout_restore_selection(& gui->layout);
+    Layout_deselect(& gui->layout);
 }
 
 Texture2D Gui_texture(const Gui * gui)
@@ -89,4 +90,10 @@ int Gui_Board_set_cstr(Gui * gui, const char * cstr)
     GuiBoard_place_from_cstr(& gui->layout.board, cstr);
 
     return OK;
+}
+
+void Gui_dbg(const Gui * gui)
+{
+    Layout_selection_dbg(& gui->layout);
+    Layout_dbg(& gui->layout);
 }

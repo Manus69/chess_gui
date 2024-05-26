@@ -11,19 +11,14 @@ static void _loop(Chess * chess, Gui * gui)
     mv = Gui_handle_input(gui);
     if (mv.attempted)
     {
+        //
+        Chess_dbg(chess);
+        //
 
+        Gui_restore(gui);
         if (Chess_try_move(chess, mv.mv))
         {
-            Gui_reset(gui);
             Gui_Board_set_cstr(gui, Chess_get_board_cstr(chess));
-
-            //
-            Chess_dbg(chess);
-            //
-        }
-        else
-        {
-            Gui_restore(gui);
         }
     }
 }
@@ -40,10 +35,12 @@ int main(void)
 
     //
     // Chess_init_from_Pos_cstr(chess, "rnbqkbnrpppp_ppp____________p_______P___________PPPP_PPPRNBQKBNR 12 28 000 000");
-    Chess_init_from_Pos_cstr(chess, "rnbqk__rppppbppp_____n______p_______P________N__PPPPBPPPRNBQK__R 6 21 000 000");
+    // Chess_init_from_Pos_cstr(chess, "rnbqk__rppppbppp_____n______p_______P________N__PPPPBPPPRNBQK__R 6 21 000 000");
+    Chess_init_from_Pos_cstr(chess, "r___kbnrpppqpppp__n________p__B_____P_Q___NP____PPP__PPPR___KBNR 59 38 000 000");
     //
 
     if (! (gui = Gui_start()))          return 0;
+
     Gui_Board_set_cstr(gui, Chess_get_board_cstr(chess));
 
     while (! WindowShouldClose())

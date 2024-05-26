@@ -44,11 +44,41 @@ void Layout_deselect(Layout * layout)
 
 void Layout_restore_selection(Layout * layout)
 {
-    * layout->selection.obj = layout->selection.initial;
-    Layout_deselect(layout);
+    if (Layout_has_selection(layout))
+    {
+        * layout->selection.obj = layout->selection.initial;
+        Layout_deselect(layout);
+    }
 }
 
 bool Layout_has_selection(const Layout * layout)
 {
     return layout->selection.obj;
+}
+
+void Layout_dbg(const Layout * layout)
+{
+    Obj * obj;
+
+    for (int row = 0; row < GUI_BOARD_SIDE; row ++)
+    {
+        for (int col = 0; col < GUI_BOARD_SIDE; col ++)
+        {
+            obj = GuiBoard_get(& layout->board, _row_col_idx(row, col));
+            printf("(%.1f %.1f)", obj->rect.x, obj->rect.y);
+        }
+        nl_;
+    }
+    nl_;
+}
+
+void Layout_selection_dbg(const Layout * layout)
+{
+    if (Layout_has_selection(layout))
+    {
+        printf("Selection: \n");
+        printf("(%.1f %.1f)", layout->selection.obj->rect.x, layout->selection.obj->rect.y);
+        printf("(%.1f %.1f)", layout->selection.initial.rect.x, layout->selection.initial.rect.y);
+        nl_;
+    }
 }

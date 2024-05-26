@@ -20,5 +20,6 @@ int         Gui_data_size(const Gui * gui);
 int         Gui_Board_set_cstr(Gui * gui, const char * cstr);
 void        Gui_reset(Gui * gui);
 void        Gui_restore(Gui * gui);
+void        Gui_dbg(const Gui * gui);
 
 #endif

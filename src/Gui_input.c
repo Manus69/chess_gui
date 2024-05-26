@@ -17,9 +17,11 @@ static void _select_piece(Gui * gui)
     int idx;
 
     idx = Layout_square_hovered(& gui->layout, gui->input.mouse);
-    if (idx != NO_IDX) Layout_select_square(& gui->layout, idx);
-
-    _move_piece(gui);
+    if (idx != NO_IDX)
+    {
+        Layout_select_square(& gui->layout, idx);
+        _move_piece(gui);
+    }
 }
 
 static GuiMove _drop_piece(Gui * gui)
@@ -40,7 +42,7 @@ GuiMove Gui_handle_input(Gui * gui)
 {
     Gui_process_input(gui);
 
-    if (gui->input.click)
+    if (gui->input.click && ! Layout_has_selection(& gui->layout))
     {
         _select_piece(gui);
     }

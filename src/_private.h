@@ -7,6 +7,7 @@
 #include    CHESS_PATH
 
 #include    <stdlib.h>
+#include    <stdio.h>
 #include    "raylib.h"
 
 #define     GUI_BOARD_SIDE      COMMON_BOARD_SIDE
@@ -133,6 +134,8 @@ void Layout_restore_selection(Layout * layout);
 void Layout_deselect(Layout * layout);
 bool Layout_has_selection(const Layout * layout);
 Obj * Layout_get_selection_obj(const Layout * layout);
+void Layout_dbg(const Layout * layout);
+void Layout_selection_dbg(const Layout * layout);
 
 Texture2D Gui_texture(const Gui * gui);
 void Gui_process_input(Gui * gui);
