@@ -77,6 +77,8 @@ Gui * Gui_new(void)
     gui->tx = LoadTexture(TX_PATH);
     assert(gui->tx.id);
 
+    gui->flip = false;
+    
     return gui;
 }
 

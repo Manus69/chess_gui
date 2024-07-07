@@ -74,6 +74,7 @@ static bool _Pos_from_cstr(Pos * pos, const char * cstr)
     cstr += len;
 
     move_clr = last_move.b == NO_IDX ? CLR_W : _piece_clr(* Brd_get(& brd, last_move.b));
+    move_clr = _clr_invert(move_clr);
 
     * pos = Pos_init(brd, cdw, cdb, last_move, move_clr);
 

@@ -66,11 +66,13 @@ struct Selection
 
 struct Gui
 {
+    char        msg_buff[NSQUARES];
     UI          ui;
     Box *       board;
     Texture2D   tx;
     Selection   selection;
     Input       input;
+    bool        flip;
 };
 
 static inline int _idx_row(int idx)
@@ -86,6 +88,11 @@ static inline int _idx_col(int idx)
 static inline int _row_col_idx(int row, int col)
 {
     return row * SIDE + col;
+}
+
+static inline int Gui_map_idx(const Gui * gui, int idx)
+{
+    return idx * ! gui->flip + (NSQUARES - idx - 1) * gui->flip;
 }
 
 #endif

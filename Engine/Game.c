@@ -22,6 +22,8 @@ Game * Game_new_from_cstr(const char * cstr)
     Game *  game;
     Pos     pos;
 
+    if (! cstr) cstr = BRD_CSTR_DFLT;
+    
     if (! Pos_from_cstr(& pos, cstr))           return NULL;
     if (! (game = calloc(1, sizeof(* game))))   return NULL;
     

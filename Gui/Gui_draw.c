@@ -25,10 +25,16 @@ static void _draw(void * _obj)
     DrawTexturePro(obj->gui->tx, _tx_atlas[obj->type], $(Rectangle) & obj->rect, (Vector2){}, 0, RAYWHITE);
 }
 
+static void _draw_selection(const Gui * gui, void (* f)(void *))
+{
+    if (gui->selection.obj) f(gui->selection.obj);
+}
+
 void Gui_draw(const Gui * gui)
 {
     BeginDrawing();
     ClearBackground(GRAY);
     UI_map(& gui->ui, _draw);
+    _draw_selection(gui, _draw);
     EndDrawing();
 }
