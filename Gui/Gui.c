@@ -41,7 +41,7 @@ static GOBJ_TYPE _ct(char x)
     return _gobj_tbl[(int) x];
 }
 
-void Gui_send_cstr(Gui * gui, const char * cstr)
+void Gui_recieve_cstr(Gui * gui, const char * cstr)
 {
     GOBJ_TYPE type;
 
@@ -61,7 +61,13 @@ static GuiMsg _move(Gui * gui, Vector2 xy)
     int_int rc_to, rc_from;
 
     rc_to = Box_grid_collision_xy(gui->board, xy.x, xy.y);
-    if (rc_to.a == NO_IDX) return (GuiMsg) {};
+    if (rc_to.a == NO_IDX)
+    {
+        gui->selection.obj->rect = gui->selection.initial;
+        gui->selection.obj = NULL;
+        
+        return (GuiMsg) {};
+    }
 
     rc_from = Box_grid_collision_xy(gui->board, gui->input.click_xy.x, gui->input.click_xy.y);
     gui->selection.obj = 0;

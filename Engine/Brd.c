@@ -48,6 +48,11 @@ bool Brd_is_rc(const Brd * brd, int row, int col, char x)
     return * Brd_get_rc(brd, row, col) == x;
 }
 
+bool Brd_is_empty_rc(const Brd * brd, int row, int col)
+{
+    return Brd_is_rc(brd, row, col, '_');
+}
+
 bool Brd_is(const Brd * brd, int idx, char x)
 {
     return * Brd_get(brd, idx) == x;
@@ -82,7 +87,7 @@ static bool _attacked_king(const Brd * brd, int row, int col, CLR clr)
 {
     char king;
 
-    king = _piece(KINGS_CSTR, clr);
+    king = _piece(KING_CSTR, clr);
 
     return  Brd_is_rc_checked(brd, row - 1, col - 1, king) ||
             Brd_is_rc_checked(brd, row - 1, col, king) ||
@@ -98,7 +103,7 @@ static bool _attacked_knight(const Brd * brd, int row, int col, CLR clr)
 {
     char knight;
 
-    knight = _piece(KNIGTS_CSTR, clr);
+    knight = _piece(KNIGHT_CSTR, clr);
 
     return  Brd_is_rc_checked(brd, row - 2, col - 1, knight) ||
             Brd_is_rc_checked(brd, row - 2, col - 1, knight) ||
@@ -118,6 +123,7 @@ static bool _attacked_ ## dir(const Brd * brd, int row, int col, CLR clr) \
  \
     while (_row_col_valid(row, col)) \
     { \
+        if (_piece_clr(* Brd_get_rc(brd, row, col)) == _clr_invert(clr)) return false; \
         if (Brd_is_rc(brd, row, col, _piece(p0, clr)) || Brd_is_rc(brd, row, col, _piece(p1, clr))) return true; \
         row += dr; \
         col += dc; \
@@ -126,14 +132,14 @@ static bool _attacked_ ## dir(const Brd * brd, int row, int col, CLR clr) \
     return false; \
 }
 
-$af_dir_gen(u, -1, 0, QUEENS_CSTR, ROOKS_CSTR)
-$af_dir_gen(d, 1, 0, QUEENS_CSTR, ROOKS_CSTR)
-$af_dir_gen(l, 0, -1, QUEENS_CSTR, ROOKS_CSTR)
-$af_dir_gen(r, 0, 1, QUEENS_CSTR, ROOKS_CSTR)
-$af_dir_gen(lu, -1, -1, QUEENS_CSTR, BISH_CSTR)
-$af_dir_gen(ld, 1, -1, QUEENS_CSTR, BISH_CSTR)
-$af_dir_gen(ru, -1, 1, QUEENS_CSTR, BISH_CSTR)
-$af_dir_gen(rd, 1, 1, QUEENS_CSTR, BISH_CSTR)
+$af_dir_gen(u, -1, 0, QUEEN_CSTR, ROOK_CSTR)
+$af_dir_gen(d, 1, 0, QUEEN_CSTR, ROOK_CSTR)
+$af_dir_gen(l, 0, -1, QUEEN_CSTR, ROOK_CSTR)
+$af_dir_gen(r, 0, 1, QUEEN_CSTR, ROOK_CSTR)
+$af_dir_gen(lu, -1, -1, QUEEN_CSTR, BISH_CSTR)
+$af_dir_gen(ld, 1, -1, QUEEN_CSTR, BISH_CSTR)
+$af_dir_gen(ru, -1, 1, QUEEN_CSTR, BISH_CSTR)
+$af_dir_gen(rd, 1, 1, QUEEN_CSTR, BISH_CSTR)
 
 bool Brd_attacked_rc(const Brd * brd, int row, int col, CLR clr)
 {
@@ -154,7 +160,7 @@ int Brd_find_king(const Brd * brd, CLR clr)
 {
     char king;
 
-    king = _piece(KINGS_CSTR, clr);
+    king = _piece(KING_CSTR, clr);
 
     for (int k = 0; k < BRD_SIZE; k ++) if (Brd_is(brd, k, king)) return k;
 

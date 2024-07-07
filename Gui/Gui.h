@@ -25,7 +25,7 @@ typedef struct Gui Gui;
 Gui *   Gui_new(void);
 void    Gui_del(Gui * gui);
 GuiMsg  Gui_get_Msg(Gui * gui);
-void    Gui_send_cstr(Gui * gui, const char * cstr);
+void    Gui_recieve_cstr(Gui * gui, const char * cstr);
 void    Gui_draw(const Gui * gui);
 
 #endif

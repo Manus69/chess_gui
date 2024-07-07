@@ -10,16 +10,22 @@
 "pppppppp" \
 "rnbqkbnr"
 
+static void _init(Game * game, Pos pos)
+{
+    game->pos_initial = pos;
+    game->pos = pos;
+    game->moven = 0;
+}
+
 Game * Game_new_from_cstr(const char * cstr)
 {
     Game *  game;
     Pos     pos;
 
-    if (! Pos_init_cstr(& pos, cstr))           return NULL;
+    if (! Pos_from_cstr(& pos, cstr))           return NULL;
     if (! (game = calloc(1, sizeof(* game))))   return NULL;
     
-    game->pos = pos;
-    game->moven = 0;
+    _init(game, pos);
 
     return game;
 }
@@ -36,23 +42,26 @@ void Game_del(Game * game)
 
 void Game_reset(Game * game)
 {
-    Pos_init_cstr(& game->pos, BRD_CSTR_DFLT);
-    game->moven = 0;
+    _init(game, game->pos_initial);
 }
 
-char * Game_get_cstr(const Game * game)
+char * Game_Brd_cstr(const Game * game)
 {
-    return Pos_get_cstr(& game->pos);
+    return Pos_Brd_cstr(& game->pos);
 }
 
 bool Game_try_move(Game * game, int from, int to)
 {
     Pos next;
 
-    if (Pos_move(& game->pos, & next, from, to))
+    if (Pos_try_move(& game->pos, & next, from, to))
     {
         game->pos = next;
         game->moven ++;
+
+        //
+        dbg_Pos(& game->pos);
+        //
 
         return true;
     }

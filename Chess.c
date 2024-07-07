@@ -4,15 +4,11 @@
 
 #include <stdio.h>
 
-#define TEST_CSTR \
-"________" \
-"________" \
-"_K_K_K__" \
-"________" \
-"________" \
-"________" \
-"________" \
-"_kk_pP__"
+const char * pcstr = "RNBQK__RPPPP_PPP_____N____B_P_____b_p________n__pppp_ppprnbqk__r 000 000 5 26";
+
+
+//add en passant
+//flip board?
 
 int main()
 {
@@ -20,10 +16,10 @@ int main()
     Gui *   gui;
     GuiMsg  msg;
 
-    if (! (gui = Gui_new()))    return 1;
-    if (! (game = Game_new()))  return 1;
+    if (! (gui = Gui_new()))                    return 1;
+    if (! (game = Game_new_from_cstr(pcstr)))   return 1;
 
-    Gui_send_cstr(gui, Game_get_cstr(game));
+    Gui_recieve_cstr(gui, Game_Brd_cstr(game));
 
     while (! WindowShouldClose())
     {
@@ -32,12 +28,13 @@ int main()
         if (msg.event == GUI_EVENT_RESET)
         {
             Game_reset(game);
-            Gui_send_cstr(gui, Game_get_cstr(game));
+            Gui_recieve_cstr(gui, Game_Brd_cstr(game));
         }
         else if (msg.event)
         {
             printf("%d %d\n", msg.from, msg.to);
             Game_try_move(game, msg.from, msg.to);
+            Gui_recieve_cstr(gui, Game_Brd_cstr(game));
         }
         
         Gui_draw(gui);

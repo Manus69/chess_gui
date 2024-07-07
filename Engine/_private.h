@@ -10,11 +10,11 @@
 
 #define SIDE        (8)
 #define BRD_SIZE    (SIDE * SIDE)
-#define KINGS_CSTR  "kK"
-#define QUEENS_CSTR "qQ"
+#define KING_CSTR   "kK"
+#define QUEEN_CSTR  "qQ"
 #define BISH_CSTR   "bB"
-#define KNIGTS_CSTR "nN"
-#define ROOKS_CSTR  "rR"
+#define KNIGHT_CSTR "nN"
+#define ROOK_CSTR   "rR"
 #define PAWN_CSTR   "pP"
 
 typedef struct Brd Brd;
@@ -48,7 +48,32 @@ static inline CLR _piece_clr(char x)
 
 static inline bool _piece_king(char x)
 {
-    return x == KINGS_CSTR[0] || x == KINGS_CSTR[1];
+    return x == KING_CSTR[0] || x == KING_CSTR[1];
+}
+
+static inline bool _piece_knight(char x)
+{
+    return x == KNIGHT_CSTR[0] || x == KNIGHT_CSTR[1];
+}
+
+static inline bool _piece_bish(char x)
+{
+    return x == BISH_CSTR[0] || x == BISH_CSTR[1];
+}
+
+static inline bool _piece_rook(char x)
+{
+    return x == ROOK_CSTR[0] || x == ROOK_CSTR[1];
+}
+
+static inline bool _piece_queen(char x)
+{
+    return x == QUEEN_CSTR[0] || x == QUEEN_CSTR[1];
+}
+
+static inline bool _piece_pawn(char x)
+{
+    return x == PAWN_CSTR[0] || x == PAWN_CSTR[1];
 }
 
 static inline char _piece(const char * cstr, CLR clr)
@@ -81,11 +106,14 @@ struct Pos
 {
     Brd         brd;
     CstlData    cstl_data[CLR_COUNT];
-    CLR         move;
+    char        king_idx[CLR_COUNT];
+    int_int     last_move;
+    CLR         move_clr;
 };
 
 struct Game
 {
+    Pos pos_initial;
     Pos pos;
     int moven;
 };
@@ -107,7 +135,12 @@ static inline int _row_col_idx(int row, int col)
 
 static inline bool _row_col_valid(int row, int col)
 {
-    return (row >= 0 && row < SIDE && col >= 0 && col < SIDE);
+    return row >= 0 && row < SIDE && col >= 0 && col < SIDE;
+}
+
+static inline bool _idx_valid(int idx)
+{
+    return idx >= 0 && idx < BRD_SIZE;
 }
 
 void    Brd_set_cstr(Brd * brd, const char * cstr);
@@ -119,16 +152,21 @@ void    Brd_set_rc(Brd * brd, int row, int col, char x);
 bool    Brd_is(const Brd * brd, int idx, char x);
 bool    Brd_is_rc(const Brd * brd, int row, int col, char x);
 bool    Brd_is_rc_checked(const Brd * brd, int row, int col, char x);
+bool    Brd_is_empty_rc(const Brd * brd, int row, int col);
 bool    Brd_attacked_rc(const Brd * brd, int row, int col, CLR clr);
 void    Brd_move(Brd * brd, int from, int to);
 int     Brd_find_king(const Brd * brd, CLR clr);
 
-
-Pos     Pos_init(Brd brd, CstlData wcd, CstlData bcd, CLR move);
-bool    Pos_init_cstr(Pos * pos, const char * cstr);
-char *  Pos_get_cstr(const Pos * pos);
-bool    Pos_move(const Pos * current, Pos * next, int from, int to);
+Pos     Pos_init(Brd brd, CstlData wcd, CstlData bcd, int_int last_move, CLR move_clr);
+Pos     Pos_init_default(Brd brd);
+bool    Pos_from_cstr(Pos * pos, const char * cstr);
+char *  Pos_Brd_cstr(const Pos * pos);
+u64     Pos_compute_moves(const Pos * pos, int idx);
+bool    Pos_try_move(const Pos * current, Pos * next, int from, int to);
+void    Pos_apply_move(Pos * pos, int from, int to);
 
 void    dbg_mask(u64 mask);
+void    dbg_msg(const char * msg, const char * file, int line);
+void    dbg_Pos(const Pos * pos);
 
 #endif
