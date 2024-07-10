@@ -56,8 +56,6 @@ void Gui_parse_buffer(Gui * gui)
         if (type != GOBJ_NONE) 
         {
             idx = Gui_map_idx(gui, k);
-
-            // Gui_place_piece(gui, type, _idx_row(k), _idx_col(k));
             Gui_place_piece(gui, type, _idx_row(idx), _idx_col(idx));
         }
     }

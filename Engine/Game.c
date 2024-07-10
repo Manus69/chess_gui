@@ -26,6 +26,7 @@ Game * Game_new_from_cstr(const char * cstr)
     
     if (! Pos_from_cstr(& pos, cstr))           return NULL;
     if (! (game = calloc(1, sizeof(* game))))   return NULL;
+    if (! (game->eng = Eng_new()))              return NULL;
     
     _init(game, pos);
 
@@ -39,6 +40,7 @@ Game * Game_new(void)
 
 void Game_del(Game * game)
 {
+    Eng_del(game->eng);
     free(game);
 }
 
@@ -69,4 +71,29 @@ bool Game_try_move(Game * game, int from, int to)
     }
 
     return false;
+}
+
+GAME_STS Game_get_STS(const Game * game)
+{
+    CLR     clr;
+    bool    any_moves;
+
+    clr = Pos_turn(& game->pos);
+    any_moves = Pos_any_moves(& game->pos, clr);
+
+    if (Pos_in_check(& game->pos, clr))
+    {
+        if (! any_moves) return clr == CLR_W ? GAME_STS_BW : GAME_STS_WW;
+
+        return clr == CLR_W ? GAME_STS_WIC : GAME_STS_BIC;
+    }
+
+    if (! any_moves) return GAME_STS_STLMT;
+
+    return GAME_STS_OK;
+}
+
+GAME_STS Game_engine_move(Game * game)
+{
+
 }

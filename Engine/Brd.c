@@ -68,6 +68,11 @@ bool Brd_is_rc_checked(const Brd * brd, int row, int col, char x)
     return false;
 }
 
+bool Brd_is_CLR(const Brd * brd, int idx, CLR clr)
+{
+    return _piece_clr(* Brd_get(brd, idx)) == clr;
+}
+
 static bool _attacked_wp(const Brd * brd, int row, int col)
 {
     return Brd_is_rc_checked(brd, row + 1, col - 1, 'p') || Brd_is_rc_checked(brd, row + 1, col + 1, 'p');

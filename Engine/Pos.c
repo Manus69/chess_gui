@@ -23,3 +23,32 @@ char * Pos_Brd_cstr(const Pos * pos)
 {
     return (char *) pos->brd.sqr;
 }
+
+CLR Pos_turn(const Pos * pos)
+{
+    return pos->move_clr;
+}
+
+bool Pos_in_check(const Pos * pos, CLR clr)
+{
+    int row, col;
+
+    row = _idx_row(pos->king_idx[clr]);
+    col = _idx_col(pos->king_idx[clr]);
+
+    return Brd_attacked_rc(& pos->brd, row, col, _clr_invert(clr));
+}
+
+bool Pos_any_moves(const Pos * pos, CLR clr)
+{
+    for (int k = 0; k < BRD_SIZE; k ++)
+    {
+        if (Brd_is_CLR(& pos->brd, k, clr))
+        {
+            if (Pos_compute_mmask(pos, k)) return true;
+        }
+    }
+
+    return false;
+}
+

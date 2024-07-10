@@ -17,6 +17,8 @@
 #define ROOK_CSTR   "rR"
 #define PAWN_CSTR   "pP"
 
+$pair_gen(char, char)
+
 typedef struct Brd Brd;
 
 struct Brd
@@ -111,11 +113,19 @@ struct Pos
     CLR         move_clr;
 };
 
+typedef struct Eng Eng;
+
+struct Eng
+{
+    Vec move_vec;
+};
+
 struct Game
 {
-    Pos pos_initial;
-    Pos pos;
-    int moven;
+    Eng *    eng;
+    Pos      pos_initial;
+    Pos      pos;
+    int      moven;
 };
 
 static inline int _idx_row(int idx)
@@ -153,20 +163,36 @@ bool    Brd_is(const Brd * brd, int idx, char x);
 bool    Brd_is_rc(const Brd * brd, int row, int col, char x);
 bool    Brd_is_rc_checked(const Brd * brd, int row, int col, char x);
 bool    Brd_is_empty_rc(const Brd * brd, int row, int col);
+bool    Brd_is_CLR(const Brd * brd, int idx, CLR clr);
 bool    Brd_attacked_rc(const Brd * brd, int row, int col, CLR clr);
 void    Brd_move(Brd * brd, int from, int to);
 int     Brd_find_king(const Brd * brd, CLR clr);
 
 Pos     Pos_init(Brd brd, CstlData wcd, CstlData bcd, int_int last_move, CLR move_clr);
 Pos     Pos_init_default(Brd brd);
+CLR     Pos_turn(const Pos * pos);
 bool    Pos_from_cstr(Pos * pos, const char * cstr);
 char *  Pos_Brd_cstr(const Pos * pos);
-u64     Pos_compute_moves(const Pos * pos, int idx);
+u64     Pos_compute_mmask(const Pos * pos, int idx);
 bool    Pos_try_move(const Pos * current, Pos * next, int from, int to);
 void    Pos_apply_move(Pos * pos, int from, int to);
+bool    Pos_in_check(const Pos * pos, CLR clr);
+bool    Pos_any_moves(const Pos * pos, CLR clr);
+
+bool    Eng_init(Eng * eng);
+Eng *   Eng_new(void);
+void    Eng_del(Eng * eng);
+Vec *   Eng_get_moves_square(Eng * engine, const Pos * pos, int idx);
+Vec *   Eng_get_moves_CLR(Eng * engine, const Pos * pos, CLR clr);
+Vec *   Eng_get_moves(Eng * eng, const Pos * pos);
+void    Eng_movevec_reset(Eng * eng);
+i32     Eng_movevec_len(const Eng * eng);
+
 
 void    dbg_mask(u64 mask);
 void    dbg_msg(const char * msg, const char * file, int line);
 void    dbg_Pos(const Pos * pos);
+void    dbg_move(char_char mv);
+void    dbg_movef(void * mv);
 
 #endif

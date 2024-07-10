@@ -228,7 +228,7 @@ static u64 _pawn_moves(const Pos * pos, int row, int col, CLR clr)
     }
 }
 
-u64 Pos_compute_moves(const Pos * pos, int idx)
+u64 Pos_compute_mmask(const Pos * pos, int idx)
 {
     int     row, col;
     char    x;
@@ -252,19 +252,19 @@ u64 Pos_compute_moves(const Pos * pos, int idx)
 bool Pos_try_move(const Pos * current, Pos * next, int from, int to)
 {
     char    x;
-    u64     moves;
+    u64     mmask;
 
     if (! _idx_valid(from) || ! _idx_valid(to)) return false;
 
-    moves = Pos_compute_moves(current, from);
+    mmask = Pos_compute_mmask(current, from);
     //
-    dbg_mask(moves);
+    dbg_mask(mmask);
     //
 
     x = * Brd_get(& current->brd, from);
     if (current->move_clr != _piece_clr(x)) return false;
     if (from == to)                         return false;
-    if (! bits_bit(moves, to))              return false;
+    if (! bits_bit(mmask, to))              return false;
 
     * next = * current;
     Pos_apply_move(next, from, to);

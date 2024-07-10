@@ -29,3 +29,13 @@ void dbg_Pos(const Pos * pos)
     printf("%d%d%d ", pos->cstl_data[CLR_B].lr_moved, pos->cstl_data[CLR_B].king_moved, pos->cstl_data[CLR_B].rr_moved);
     printf("%d %d\n", pos->last_move.a, pos->last_move.b);
 }
+
+void dbg_move(char_char mv)
+{
+    printf("(%d - %d) ", mv.a, mv.b);
+}
+
+void dbg_movef(void * mv)
+{
+    dbg_move($(char_char) mv);
+}
